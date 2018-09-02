@@ -1,11 +1,49 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorSecondary</item>
+        <item name="colorError">@color/error</item>
+        <item name="android:textColorPrimary">@color/onPrimary</item>
+        <item name="android:textColorSecondary">@color/onSecondary</item>
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:actionMenuTextColor">@color/colorBlack</item>
+        <item name="android:actionMenuTextAppearance">
+            @style/TextAppearance.AppCompat.Widget.ActionBar.Menu
+        </item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+        <item name="android:fontFamily">@font/nunito_sans</item>
+    </style>
+
+    <style name="BottomAppBarTheme" parent="@style/Widget.MaterialComponents.BottomAppBar.Colored">
+        <item name="android:elevation">8dp</item>
+        <item name="fabCradleRoundedCornerRadius">15dp</item>
+        <item name="hideOnScroll">true</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="TabTextTheme" parent="TextAppearance.MaterialComponents.Tab">
+        <item name="android:fontFamily">@font/nunito_sans_semibold</item>
+    </style>
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:minHeight">900dp</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorWhite</item>
     </style>
 
 </resources>

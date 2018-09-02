@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hello"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Hello Click me!"
+            android:textColor="@color/colorPrimary"
+            android:textSize="56sp" />
+
+    </LinearLayout>
+
+
+</com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>

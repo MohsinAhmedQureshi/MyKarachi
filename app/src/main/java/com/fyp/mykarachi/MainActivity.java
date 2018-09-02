@@ -9,11 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +18,16 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 public class MainActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -56,10 +61,27 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
      * Stores parameters for requests to the FusedLocationProviderApi.
      */
     private LocationRequest mLocationRequest;
+
     /**
      * The entry point to Google Play Services.
      */
     private GoogleApiClient mGoogleApiClient;
+
+    /**
+     * Firebase Database object.
+     */
+    private FirebaseDatabase firebaseDatabase;
+
+    /**
+     * The reference point to Firebase Database.
+     */
+    private DatabaseReference myRef;
+
+    /**
+     * Stores the current Firebase User state.
+     */
+    private FirebaseUser currentUser;
+
     // UI Widgets.
     private TextView mLocationUpdatesResultView;
 
@@ -69,14 +91,20 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
         setContentView(R.layout.activity_main);
 
         mLocationUpdatesResultView = findViewById(R.id.location_updates_result);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        initializeFirebase();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 //        if (s.equals(LocationResultHelper.KEY_LOCATION_UPDATES_RESULT))
                 Log.i(TAG, "onSharedPreferenceChanged: Start");
-                mLocationUpdatesResultView.setText(LocationResultHelper.getSavedLocationResult(MainActivity.this));
+                String savedLocation = LocationResultHelper.getSavedLocationResult(MainActivity.this);
+                String[] location = savedLocation.split("\n");
+                mLocationUpdatesResultView.setText(savedLocation);
+                for (int i = 1; i < location.length; i++)
+                    myRef.push().setValue(location[i]);
             }
         });
 
@@ -118,7 +146,7 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_PERMISSIONS_REQUEST_CODE);
                         }
-                    })
+                    }).setActionTextColor(R.color.onSecondary)
                     .show();
         } else {
             Log.i(TAG, "Requesting permission");
@@ -257,8 +285,22 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 //        if (s.equals(LocationResultHelper.KEY_LOCATION_UPDATES_RESULT))
                 Log.i(TAG, "onSharedPreferenceChanged: Start");
-                mLocationUpdatesResultView.setText(LocationResultHelper.getSavedLocationResult(MainActivity.this));
+                String savedLocation = LocationResultHelper.getSavedLocationResult(MainActivity.this);
+                String[] location = savedLocation.split("\n");
+                mLocationUpdatesResultView.setText(savedLocation);
+                for (int i = 1; i < location.length; i++)
+                    myRef.push().setValue(location[i]);
             }
         });
+    }
+
+    public void initializeFirebase() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = firebaseDatabase.getReference();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            myRef = myRef.child("Users").child(currentUser.getUid()).child("Location");
+        }
     }
 }
