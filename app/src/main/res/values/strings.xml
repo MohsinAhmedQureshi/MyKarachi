@@ -28,6 +28,9 @@
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
 
+    // GOOGLE MAPS API KEY
+    <string name="google_maps_API_key">AIzaSyCTVj85sRTU8UN3kf8iuEJWDz_sxQo3RG0</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Updates Fragment</string>
 </resources>

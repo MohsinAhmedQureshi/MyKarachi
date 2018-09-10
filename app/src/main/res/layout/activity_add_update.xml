@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="8dp"
+                android:src="@drawable/ic_round_add_alert_24px"
+                android:tint="@color/colorPrimary" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="12"
+                android:padding="16dp"
+                android:paddingStart="8dp"
+                android:text="Add Update"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="32dp"
+            android:background="@android:color/darker_gray" />
+
+
+        <!-- FIELD 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="32dp"
+            android:paddingEnd="8dp"
+            android:weightSum="14">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="8dp"
+                android:src="@drawable/ic_round_location_on_24px"
+                android:tint="@color/colorPrimary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="12"
+                android:hint="Location">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_sans"
+                    android:inputType="none"
+                    android:textColor="@color/colorSecondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <!-- FIELD 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="32dp"
+            android:paddingEnd="8dp"
+            android:weightSum="14">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:padding="8dp"
+                android:src="@drawable/ic_round_traffic_24px"
+                android:tint="@color/colorPrimary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="12"
+                android:hint="Incident">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_sans"
+                    android:inputType="textPostalAddress"
+                    android:textColor="@color/colorSecondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <!-- FIELD 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="32dp"
+            android:paddingEnd="8dp"
+            android:weightSum="14">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_gravity="top"
+                android:layout_weight="2"
+                android:padding="10dp"
+                android:src="@drawable/ic_round_comment_24px"
+                android:tint="@color/colorPrimary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="12"
+                android:hint="Message"
+                app:counterEnabled="true"
+                app:counterMaxLength="140">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/colorSecondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ExpandableListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </ExpandableListView>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_vertical"
+                android:text="Add Photo"
+                android:textColor="@color/colorPrimary"
+                app:icon="@drawable/ic_round_add_a_photo_24px"
+                app:iconPadding="8dp"
+                app:iconTint="@color/colorPrimary"
+                app:strokeColor="@color/colorPrimary" />
+
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginEnd="8dp"
+                android:elevation="12dp"
+                android:gravity="center_vertical"
+                android:text="Send Update"
+                app:backgroundTint="@color/colorPrimary"
+                app:icon="@drawable/ic_round_send_24px" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/HomeScreenAppBar"
+        style="@style/BottomAppBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="end"
+        app:navigationIcon="@drawable/ic_round_close_24px" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/HomeScreenFab"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:backgroundTint="@android:color/black"
+        android:src="@drawable/ic_round_add_a_photo_24px"
+        android:tint="@color/colorWhite"
+        app:elevation="12dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/HomeScreenAppBar"
+        app:maxImageSize="24dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

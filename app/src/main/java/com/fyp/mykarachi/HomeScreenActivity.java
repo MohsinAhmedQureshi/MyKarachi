@@ -1,5 +1,6 @@
 package com.fyp.mykarachi;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,10 +13,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFragment.OnListFragmentInteractionListener,
-        UpdatesFragment.OnFragmentInteractionListener {
+        UpdatesFragment.OnFragmentInteractionListener, AddUpdateFragment.OnFragmentInteractionListener {
 
     private static BottomAppBar bottomAppBar;
     private static ShimmerFrameLayout shimmerFrameLayout;
@@ -76,14 +80,42 @@ public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFra
 
         bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
 
+        // SET MAP FRAGMENT TO NAVIGATION BUTTON
+        final Fragment mapFragment = new MapFragment();
+        setSupportActionBar(bottomAppBar);
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.HomeScreenCoordinatorLayout, mapFragment);
+                fragmentTransaction.addToBackStack(mapFragment.toString());
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.commit();
+                bottomAppBar.setNavigationIcon(R.drawable.ic_round_close_24px);
+                bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        HomeScreenActivity.super.onBackPressed();
+                        bottomAppBar.setNavigationIcon(R.drawable.ic_round_map_24px);
+                    }
+                });
+
+                // SET FAB BUTTON FUNCTIONALITY TO SEARCH HERE
+            }
+        });
+
+        final Fragment addUpdateFragment = new AddUpdateFragment();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 //                Animation animation = AnimationUtils.loadAnimation(HomeScreenActivity.this, R.anim.fab_grow);
 //                floatingActionButton.startAnimation(animation);
-                RoundedBottomSheetDialogFragment roundedBottomMenu = RoundedBottomSheetDialogFragment.getInstance();
-                roundedBottomMenu.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+//                RoundedBottomSheetDialogFragment roundedBottomMenu = RoundedBottomSheetDialogFragment.getInstance();
+//                roundedBottomMenu.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+                Intent intent = new Intent(HomeScreenActivity.this, AddUpdateActivity.class);
+                startActivity(intent);
             }
         });
     }
