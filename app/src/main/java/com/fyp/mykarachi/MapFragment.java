@@ -1,5 +1,6 @@
 package com.fyp.mykarachi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -55,6 +56,10 @@ import androidx.fragment.app.Fragment;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class MapFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
+
+    private FragmentListener fragmentCallback;
+
+
     private static final String TAG = "MapFragment";
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -439,4 +444,26 @@ public class MapFragment extends Fragment implements GoogleApiClient.OnConnectio
         }
 //        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
+    @Override
+    public void onDetach() {
+        Toast.makeText(getContext(), "Map Fragment: onDetach", Toast.LENGTH_SHORT).show();
+        super.onDetach();
+        fragmentCallback.setBottomAppBarTransition("onMapDetach");
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        Toast.makeText(context, "Map Fragment: onAttach", Toast.LENGTH_SHORT).show();
+
+        if (context instanceof FragmentListener)
+            fragmentCallback = (FragmentListener) context;
+
+        fragmentCallback.setBottomAppBarTransition("onMapAttach");
+        super.onAttach(context);
+    }
+
+
+
 }

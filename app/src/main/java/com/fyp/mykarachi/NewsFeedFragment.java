@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fyp.mykarachi.dummy.DummyContent;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.fyp.mykarachi.dummy.DummyContent.DummyItem;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
  * interface.
  */
 public class NewsFeedFragment extends androidx.fragment.app.Fragment {
+
+    private DatabaseReference mDatabaseReference;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private RecyclerView mRecyclerView;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -52,6 +57,8 @@ public class NewsFeedFragment extends androidx.fragment.app.Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Updates");
     }
 
     @Override
@@ -62,13 +69,13 @@ public class NewsFeedFragment extends androidx.fragment.app.Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new NewsFeedItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            mRecyclerView = (RecyclerView) view;
+            setUpFirebaseAdapter();
+//            if (mColumnCount <= 1) {
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//            } else {
+//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+//            }
         }
 
         return view;
@@ -90,6 +97,23 @@ public class NewsFeedFragment extends androidx.fragment.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mFirebaseAdapter.cleanup();
+    }
+
+
+    private void setUpFirebaseAdapter() {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Tweet, TweetViewHolder>
+                (Tweet.class, R.layout.tweet_layout, TweetViewHolder.class, mDatabaseReference) {
+
+            @Override
+            protected void populateViewHolder(TweetViewHolder viewHolder, Tweet model, int position) {
+                viewHolder.bindTweet(model);
+            }
+        };
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
 //    @Override

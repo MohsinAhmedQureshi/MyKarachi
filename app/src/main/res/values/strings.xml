@@ -28,6 +28,10 @@
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
 
+    // DIALOG - SIGN OUT CONFIRMATION
+    <string name="dialog_title">Confirmation</string>
+    <string name="dialog_message">Do you wish to sign out?</string>
+
     // GOOGLE MAPS API KEY
     <string name="google_maps_API_key">AIzaSyCTVj85sRTU8UN3kf8iuEJWDz_sxQo3RG0</string>
 

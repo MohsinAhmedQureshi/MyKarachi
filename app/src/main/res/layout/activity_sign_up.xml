@@ -4,23 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    tools:context=".LoginActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/mukta_vaani_semibold"
-        android:gravity="center_horizontal"
-        android:text="@string/app_name"
-        android:textColor="@color/colorSecondary"
-        android:textSize="42sp" />
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".SignUpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -30,11 +22,13 @@
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:hint="@string/login_email"
-            app:hintTextAppearance="@style/TabTextTheme">
+            android:hint="Email"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/TabTextTheme"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_email"
+                android:id="@+id/signup_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_sans"
@@ -51,13 +45,13 @@
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:hint="@string/login_password"
+            android:hint="Password"
             app:errorEnabled="true"
             app:hintTextAppearance="@style/TabTextTheme"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_password"
+                android:id="@+id/signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_sans"
@@ -67,26 +61,39 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:hint="Name"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@style/TabTextTheme"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signup_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans"
+                android:inputType="textPersonName"
+                android:textColor="@color/onBackground" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:elevation="8dp"
             android:fontFamily="@font/nunito_sans"
-            android:onClick="onClickLogin"
-            android:text="@string/login"
+            android:onClick="onClickSignUp"
+            android:text="Sign Up"
             app:cornerRadius="4dp" />
 
 
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:fontFamily="@font/nunito_sans"
-        android:onClick="onClickSignUp"
-        android:text="@string/hint_sign_up" />
 
 </RelativeLayout>

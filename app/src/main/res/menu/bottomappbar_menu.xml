@@ -7,4 +7,9 @@
         android:showAsAction="always"
         android:title="@string/action_search" />
 
+    <item
+        android:id="@+id/app_bar_logout"
+        android:showAsAction="never"
+        android:title="Sign Out" />
+
 </menu>

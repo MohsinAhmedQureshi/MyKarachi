@@ -18,4 +18,13 @@
     <dimen name="timestamp">11dp</dimen>
     <dimen name="description">15dp</dimen>
     <dimen name="price">13dp</dimen>
+
+    <dimen name="first_keyline">16dp</dimen>
+    <dimen name="second_keyline">24dp</dimen>
+    <dimen name="third_keyline">72dp</dimen>
+
+    <dimen name="touch_target">48dp</dimen>
+
+    <dimen name="account_header_size">56dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
 </resources>

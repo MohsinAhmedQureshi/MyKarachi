@@ -13,4 +13,6 @@
     <color name="placeholder_bg">#dddddd</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorLikeButton">#0084FF</color>
+    <color name="colorDislikeButton">#b71c1c</color>
 </resources>

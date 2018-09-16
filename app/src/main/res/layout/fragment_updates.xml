@@ -7,12 +7,40 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ExpandableListView
-        android:id="@+id/expandableListView"
+    <!--<ExpandableListView-->
+    <!--android:id="@+id/expandableListView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:divider="@android:color/darker_gray"-->
+    <!--android:dividerHeight="0.5dp"-->
+    <!--android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"/>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/anchorView"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_centerInParent="true"
+            android:background="@color/colorBlack"
+            android:backgroundTint="@color/colorBlack" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pending_news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/anchorView"
+            android:backgroundTint="@color/colorSecondary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/verified_news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/anchorView"
+            android:backgroundTint="@color/colorSecondaryLight" />
+
+    </RelativeLayout>
 
 </FrameLayout>

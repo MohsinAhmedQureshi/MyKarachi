@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,15 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -36,6 +43,11 @@ public class UpdatesFragment extends androidx.fragment.app.Fragment {
     private ExpandableListAdapter expandableListAdapter;
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
+
+    private RecyclerView pendingUpdates, verifiedUpdates;
+
+    private DatabaseReference myRefPendingUpdates, myRefVerifiedUpdates;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,6 +77,8 @@ public class UpdatesFragment extends androidx.fragment.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myRefPendingUpdates = FirebaseDatabase.getInstance().getReference().child("Pending Updates");
+        myRefVerifiedUpdates = FirebaseDatabase.getInstance().getReference().child("Verified Updates");
     }
 
     @Override
@@ -72,12 +86,31 @@ public class UpdatesFragment extends androidx.fragment.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_updates, container, false);
-        expandableListView = view.findViewById(R.id.expandableListView);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-        Toast.makeText(getContext(), TAG + "Expandable List: Title Length: " + expandableListTitle.size(), Toast.LENGTH_SHORT).show();
-        expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
+//        expandableListView = view.findViewById(R.id.expandableListView);
+//        expandableListDetail = ExpandableListDataPump.getData();
+//        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+//        Toast.makeText(getContext(), TAG + "Expandable List: Title Length: " + expandableListTitle.size(), Toast.LENGTH_SHORT).show();
+//        expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
+//        expandableListView.setAdapter(expandableListAdapter);
+
+        pendingUpdates = view.findViewById(R.id.pending_news_recycler_view);
+        verifiedUpdates = view.findViewById(R.id.verified_news_recycler_view);
+
+        setUpPendingNewsAdapter(pendingUpdates);
+        setUpVerifiedNewsAdapter(verifiedUpdates);
+
+//        RecyclerView.LayoutManager firstLayoutManager = new LinearLayoutManager(getActivity());
+//        RecyclerView.LayoutManager secondLayoutManager = new LinearLayoutManager(getActivity());
+//        pendingUpdates.setLayoutManager(firstLayoutManager);
+//        verifiedUpdates.setLayoutManager(secondLayoutManager);
+//
+//        String[] data = {"element1", "element2", "element3", "element4", "element5", "element6", "element7", "element8",
+//                "element1", "element2", "element3", "element4", "element5", "element6", "element7", "element8",
+//                "element1", "element2", "element3", "element4", "element5", "element6", "element7", "element8"};
+//
+//        pendingUpdates.setAdapter(new TestRecyclerViewAdapter(getActivity(), data));
+//        verifiedUpdates.setAdapter(new TestRecyclerViewAdapter(getActivity(), data));
+
         return view;
     }
 
@@ -104,6 +137,38 @@ public class UpdatesFragment extends androidx.fragment.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void setUpPendingNewsAdapter(RecyclerView mxRecyclerView) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<News, PendingNewsViewHolder>
+                (News.class, R.layout.pending_news_list_item, PendingNewsViewHolder.class, myRefPendingUpdates) {
+
+            @Override
+            protected void populateViewHolder(PendingNewsViewHolder viewHolder, News model, int position) {
+                Log.d(TAG, "populateViewHolder: ");
+                viewHolder.bindNews(model);
+            }
+        };
+
+        mxRecyclerView.setHasFixedSize(true);
+        mxRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mxRecyclerView.setAdapter(mFirebaseAdapter);
+    }
+
+    private void setUpVerifiedNewsAdapter(RecyclerView mxRecyclerView) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<News, VerifiedNewsViewHolder>
+                (News.class, R.layout.verified_news_list_item, VerifiedNewsViewHolder.class, myRefVerifiedUpdates) {
+
+            @Override
+            protected void populateViewHolder(VerifiedNewsViewHolder viewHolder, News model, int position) {
+                Log.d(TAG, "populateViewHolder: ");
+                viewHolder.bindNews(model);
+            }
+        };
+
+        mxRecyclerView.setHasFixedSize(true);
+        mxRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mxRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
 //    @Override

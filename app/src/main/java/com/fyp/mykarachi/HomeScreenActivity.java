@@ -4,22 +4,27 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.fyp.mykarachi.dummy.DummyContent;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFragment.OnListFragmentInteractionListener,
-        UpdatesFragment.OnFragmentInteractionListener, AddUpdateFragment.OnFragmentInteractionListener {
+        UpdatesFragment.OnFragmentInteractionListener, AddUpdateFragment.OnFragmentInteractionListener, FragmentListener {
 
     private static BottomAppBar bottomAppBar;
     private static ShimmerFrameLayout shimmerFrameLayout;
@@ -42,6 +47,17 @@ public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
+
+        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    // PERFORM ACTIONS ON SIGN-OUT
+                    startActivity(new Intent(HomeScreenActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
+            }
+        });
+
 
         // Initialize fields
         tabLayout = findViewById(R.id.HomeScreenTabLayout);
@@ -79,41 +95,43 @@ public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFra
         });
 
         bottomAppBar.replaceMenu(R.menu.bottomappbar_menu);
-
-        // SET MAP FRAGMENT TO NAVIGATION BUTTON
-        final Fragment mapFragment = new MapFragment();
-        setSupportActionBar(bottomAppBar);
-        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+        bottomAppBar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_round_more_vert_24px));
+        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.HomeScreenCoordinatorLayout, mapFragment);
-                fragmentTransaction.addToBackStack(mapFragment.toString());
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                fragmentTransaction.commit();
-                bottomAppBar.setNavigationIcon(R.drawable.ic_round_close_24px);
-                bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        HomeScreenActivity.super.onBackPressed();
-                        bottomAppBar.setNavigationIcon(R.drawable.ic_round_map_24px);
-                    }
-                });
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getTitle().toString()) {
 
-                // SET FAB BUTTON FUNCTIONALITY TO SEARCH HERE
+                    case "Search":
+                        Toast.makeText(HomeScreenActivity.this, "Search Button Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case "Sign Out":
+//                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+//                        if (prev != null) {
+//                            ft.remove(prev);
+//                        }
+//                        ft.addToBackStack(null);
+//                        DialogFragment dialogFragment = new SignOutDialogFragment();
+//                        dialogFragment.show(ft, "dialog");
+                        FirebaseAuth.getInstance().signOut();
+                        break;
+                }
+                return HomeScreenActivity.super.onOptionsItemSelected(item);
             }
         });
 
-        final Fragment addUpdateFragment = new AddUpdateFragment();
+
+        // SET MAP FRAGMENT TO BOTTOM APP BAR NAVIGATION BUTTON
+        setTransitionOnMapExit();
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 //                Animation animation = AnimationUtils.loadAnimation(HomeScreenActivity.this, R.anim.fab_grow);
 //                floatingActionButton.startAnimation(animation);
-//                RoundedBottomSheetDialogFragment roundedBottomMenu = RoundedBottomSheetDialogFragment.getInstance();
-//                roundedBottomMenu.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+
                 Intent intent = new Intent(HomeScreenActivity.this, AddUpdateActivity.class);
                 startActivity(intent);
             }
@@ -128,6 +146,21 @@ public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFra
     @Override
     public void onFragmentInteraction(Uri uri) {
         // Left blank. No functionality needed.
+    }
+
+    @Override
+    public void setBottomAppBarTransition(String callingContext) {
+
+        switch (callingContext) {
+            case "onMapAttach":
+                setTransitionOnMapEntry();
+                break;
+
+            case "onMapDetach":
+                setTransitionOnMapExit();
+                break;
+        }
+
     }
 
     @Override
@@ -146,10 +179,59 @@ public class HomeScreenActivity extends AppCompatActivity implements NewsFeedFra
 
     }
 
-//    private boolean isNetworkAvailable() {
-//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-//        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+//        RoundedBottomSheetDialogFragment roundedBottomMenu = RoundedBottomSheetDialogFragment.getInstance();
+//        roundedBottomMenu.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getTitle().toString()) {
+
+            case "Search":
+                Toast.makeText(this, "Search Button Clicked", Toast.LENGTH_SHORT).show();
+                break;
+
+            case "Sign Out":
+                FirebaseAuth.getInstance().signOut();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setTransitionOnMapExit() {
+
+        bottomAppBar.setNavigationIcon(R.drawable.ic_round_map_24px);
+        final Fragment mapFragment = new MapFragment();
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.HomeScreenCoordinatorLayout, mapFragment);
+                fragmentTransaction.addToBackStack(mapFragment.toString());
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                fragmentTransaction.commit();
+            }
+        });
+
+    }
+
+    private void setTransitionOnMapEntry() {
+
+        bottomAppBar.setNavigationIcon(R.drawable.ic_round_close_24px);
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HomeScreenActivity.super.onBackPressed();
+            }
+        });
+
+    }
 
 }

@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:focusableInTouchMode="true"
         android:padding="16dp">
 
         <LinearLayout
@@ -70,6 +71,7 @@
                 android:hint="Location">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addUpdateLocation"
                     style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,6 +110,7 @@
                 android:hint="Incident">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addUpdateCause"
                     style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,11 +147,12 @@
                 android:layout_height="150dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="12"
-                android:hint="Message"
+                android:hint="Details"
                 app:counterEnabled="true"
                 app:counterMaxLength="140">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addUpdateDetails"
                     style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
@@ -168,13 +172,7 @@
             android:gravity="end"
             android:orientation="horizontal">
 
-            <ExpandableListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            </ExpandableListView>
-
+            <!--
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
@@ -187,6 +185,7 @@
                 app:iconPadding="8dp"
                 app:iconTint="@color/colorPrimary"
                 app:strokeColor="@color/colorPrimary" />
+                -->
 
 
             <com.google.android.material.button.MaterialButton
@@ -197,6 +196,7 @@
                 android:elevation="12dp"
                 android:gravity="center_vertical"
                 android:text="Send Update"
+                android:onClick="onClickSendUpdate"
                 app:backgroundTint="@color/colorPrimary"
                 app:icon="@drawable/ic_round_send_24px" />
 
@@ -206,7 +206,7 @@
     </LinearLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/HomeScreenAppBar"
+        android:id="@+id/AddUpdateAppBar"
         style="@style/BottomAppBarTheme"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -216,7 +216,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/HomeScreenFab"
+        android:id="@+id/AddUpdateFab"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -225,7 +225,8 @@
         android:tint="@color/colorWhite"
         app:elevation="12dp"
         app:fabSize="normal"
-        app:layout_anchor="@id/HomeScreenAppBar"
+        android:onClick="onClickAddPhoto"
+        app:layout_anchor="@id/AddUpdateAppBar"
         app:maxImageSize="24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

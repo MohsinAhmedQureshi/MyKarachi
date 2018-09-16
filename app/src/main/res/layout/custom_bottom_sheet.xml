@@ -1,32 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/header_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/account_header_size" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/third_keyline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/third_keyline" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sign_in_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In With Google"
+        android:textAllCaps="false"
+        android:theme="@style/AppTheme"
+        app:layout_constraintBottom_toBottomOf="@id/header_bottom"
+        app:layout_constraintStart_toEndOf="@id/third_keyline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textAllCaps="false"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"
+        android:layout_marginStart="@dimen/second_keyline"
+        android:tint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@id/header_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_round_account_circle_24px" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:text="@{viewModel.user.displayName}"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        app:layout_constraintStart_toEndOf="@id/third_keyline"
+        app:layout_constraintTop_toTopOf="@id/user_avatar"
+        tools:text="Arthur Nagy" />
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_sans"
+        android:text="@{viewModel.user.email}"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        app:layout_constraintStart_toEndOf="@id/third_keyline"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        tools:text="arthur.93.nagy@gmail.com" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/user_data_group"
+        goneIf="@{!viewModel.isUserLoggedIn}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="user_name, user_email"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/divider_history"
+        style="@style/BottomSheetEntryDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_bottom" />
+
+    <!--
+    <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:itemIconPadding="@dimen/second_keyline"
+        app:itemTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        app:layout_constraintTop_toBottomOf="@id/divider_history"
+        app:menu="@menu/navigation" />
+        -->
 
-        <TextView
-            android:id="@+id/hello"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/nunito_sans_semibold"
-            android:text="Hello Click me!"
-            android:textColor="@color/colorPrimary"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/placeholder_bg" />
-
-
-    </LinearLayout>
-
-</com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
