@@ -80,6 +80,16 @@
                     android:textColor="@color/colorSecondary" />
 
             </com.google.android.material.textfield.TextInputLayout>
+            
+            
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:onClick="onClickLocation"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_map"
+                    android:tint="@color/colorPrimary" />
 
         </LinearLayout>
 
@@ -100,25 +110,15 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_round_traffic_24px"
                 android:tint="@color/colorPrimary" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                
+            <Spinner
+                android:id="@+id/updateNewsCauseSpinner"
                 android:layout_width="0dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_weight="12"
-                android:hint="Incident">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addUpdateCause"
-                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_sans"
-                    android:inputType="textPostalAddress"
-                    android:textColor="@color/colorSecondary" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:backgroundTint="@color/colorPrimary"
+                android:foregroundTint="@color/colorPrimary"/>
 
         </LinearLayout>
 
@@ -189,6 +189,7 @@
 
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/updateNewsSubmitUpdateBtn"
                 style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"

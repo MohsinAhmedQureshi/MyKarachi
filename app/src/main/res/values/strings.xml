@@ -37,4 +37,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Updates Fragment</string>
+    <string-array name="Traffic_Jam_Reasons">
+        <item>Vehicle Clash</item>
+        <item>Road Breakdown</item>
+        <item>Road Construction</item>
+        <item>Govt. Vehicle Protocol</item>
+        <item>Criminal Activity</item>
+        <item>Dharna</item>
+        <item>Incorrect Parking</item>
+        <item>Manual Traffic Control</item>
+    </string-array>
 </resources>
